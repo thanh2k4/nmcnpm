@@ -4,11 +4,6 @@ const Product = require('./Product');
 const Cart = require('./Cart');
 
 const CartProduct = database.define('CartProduct', {
-    cartProductId: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
     cartId: {
         type: DataTypes.INTEGER,
         references: {
@@ -27,7 +22,6 @@ const CartProduct = database.define('CartProduct', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-
     price: {
         type: DataTypes.INTEGER,
         allowNull: false,
