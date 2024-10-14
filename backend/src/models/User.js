@@ -57,6 +57,10 @@ const User = database.define('User', {
     gender: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 
 }, {
