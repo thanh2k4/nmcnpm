@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const database = require('../utils/database');
 const bcrypt = require('bcrypt');
+const Cart = require('./Cart');
 
 const phoneValidationRegex = /\d{10}/;
 const passwordValidationRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$])[0-9a-zA-Z!@#$]+$/;
@@ -68,6 +69,9 @@ const User = database.define('User', {
         beforeCreate: async (user) => {
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword;
+            if (user.role === 'USER') {
+                await Cart.create({ userId: user.userId });
+            }
         },
         beforeUpdate: async (user) => {
             if (user.changed('password')) {
