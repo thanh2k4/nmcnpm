@@ -27,5 +27,9 @@ const OrderProduct = database.define('OrderProduct', {
     quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
+    },
+    price: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     }
 });
