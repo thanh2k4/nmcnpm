@@ -5,11 +5,6 @@ const Order = require('./Order');
 
 
 const OrderProduct = database.define('OrderProduct', {
-    orderProductId: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    },
     orderId: {
         type: DataTypes.INTEGER,
         references: {
@@ -33,3 +28,5 @@ const OrderProduct = database.define('OrderProduct', {
         allowNull: false,
     }
 });
+
+module.exports = OrderProduct;

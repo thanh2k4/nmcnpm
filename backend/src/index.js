@@ -6,14 +6,7 @@ const database = require('./utils/database');
 const cookieParser = require('cookie-parser');
 
 // Import all models
-const User = require('./models/User');
-const Product = require('./models/Product');
-const Cart = require('./models/Cart');
-const CartProduct = require('./models/CartProduct');
-const Order = require('./models/Order');
-const OrderProduct = require('./models/OrderProduct');
-const Review = require('./models/Review');
-const Notification = require('./models/Notification');
+const { User, Cart, Order, Product, Review, Notification, OrderProduct, CartProduct } = require('./models/association');
 
 const port = process.env.PORT || 5000;
 
