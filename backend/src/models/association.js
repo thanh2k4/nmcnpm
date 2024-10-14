@@ -28,7 +28,7 @@ Review.belongsTo(Product, { foreignKey: 'productId' });
 
 //Product-Order
 Product.belongsToMany(Order, { through: OrderProduct, foreignKey: 'productId' });
-Order.belongsToMany(Product, { through: OrderProduct, foreignKey: 'orderId' });
+Order.belongsToMany(Product, { through: OrderProduct, foreignKey: 'orderId', onDelete: 'CASCADE' });
 
 //Cart-Product
 Cart.belongsToMany(Product, { through: 'CartProduct', foreignKey: 'cartId' });
