@@ -3,18 +3,18 @@ const User = require('../models/User');
 const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body);
-        res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 }
 
 const getUsers = async (req, res) => {
     try {
         const users = await User.findAll();
-        res.status(200).json(users);
+        return res.status(200).json(users);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 }
 
@@ -27,7 +27,7 @@ const getUserById = async (req, res) => {
         return res.status(200).json(user);
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 }
 
@@ -41,7 +41,7 @@ const deleteUser = async (req, res) => {
         return res.status(204).send();
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 }
 
@@ -55,7 +55,7 @@ const updateUser = async (req, res) => {
         return res.status(200).json(user);
     }
     catch (error) {
-        res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 }
 

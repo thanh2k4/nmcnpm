@@ -17,7 +17,7 @@ const getOrders = async (req, res) => {
             include: [{
                 model: Product,
                 through: {
-                    attributes: ['quantity']
+                    attributes: ['quantity', 'price']
                 }
             }]
         });
@@ -33,7 +33,7 @@ const getOrderById = async (req, res) => {
             include: [{
                 model: Product,
                 through: {
-                    attributes: ['quantity']
+                    attributes: ['quantity', 'price']
                 }
             }]
         });
@@ -52,6 +52,9 @@ const deleteOrder = async (req, res) => {
         const order = await Order.findByPk(req.params.id);
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
+        }
+        if (order.status === 'delivered') {
+            return res.status(400).json({ message: 'Order already delivered' });
         }
         await order.destroy();
         return res.status(204).send();

@@ -11,7 +11,7 @@ User.hasMany(Review, { foreignKey: 'userId' });
 Review.belongsTo(User, { foreignKey: 'userId' });
 
 //User-Notification
-User.hasMany(Notification, { foreignKey: 'userId' });
+User.hasMany(Notification, { foreignKey: 'userId', onDelete: 'CASCADE' });
 Notification.belongsTo(User, { foreignKey: 'userId' });
 
 //User-Cart
@@ -23,7 +23,7 @@ User.hasMany(Order, { foreignKey: 'userId' });
 Order.belongsTo(User, { foreignKey: 'userId' });
 
 //Product-Review
-Product.hasMany(Review, { foreignKey: 'productId' });
+Product.hasMany(Review, { foreignKey: 'productId', onDelete: 'CASCADE' });
 Review.belongsTo(Product, { foreignKey: 'productId' });
 
 //Product-Order
@@ -32,5 +32,5 @@ Order.belongsToMany(Product, { through: OrderProduct, foreignKey: 'orderId', onD
 
 //Cart-Product
 Cart.belongsToMany(Product, { through: 'CartProduct', foreignKey: 'cartId' });
-Product.belongsToMany(Cart, { through: 'CartProduct', foreignKey: 'productId' });
+Product.belongsToMany(Cart, { through: 'CartProduct', foreignKey: 'productId', onDelete: 'RESTRICT' });
 

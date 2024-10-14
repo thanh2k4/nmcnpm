@@ -8,24 +8,16 @@ const getCart = async (req, res) => {
             where: {
                 userId: userId
             },
-            include: Product
+            include: {
+                model: Product,
+                through: {
+                    attributes: ['quantity', 'price']
+                }
+            }
         });
-        res.send(cart);
+        return res.send(cart);
     } catch (error) {
-        res.status(500).send(error);
-    }
-}
-
-const createCart = async (req, res) => {
-    const userId = req.params.userId;
-    try {
-        const cart = await Cart.create({
-            userId: userId,
-            totalPrice: 0
-        });
-        res.send(cart);
-    } catch (error) {
-        res.status(500).send(error);
+        return res.status(500).send(error);
     }
 }
 
@@ -37,29 +29,64 @@ const updateCart = async (req, res) => {
                 userId: userId
             }
         });
-        res.send(cart);
+        return res.send(cart);
     } catch (error) {
-        res.status(500).send(error);
+        return res.status(500).send(error);
     }
 }
 
-const deleteCart = async (req, res) => {
+const cartToOrder = async (req, res) => {
     const userId = req.params.userId;
+    const { products } = req.body;
     try {
-        await Cart.destroy({
+        const cart = await Cart.findOne({
             where: {
                 userId: userId
-            }
+            },
+            include: Product,
+            attributes: ['quantity', "price"]
         });
-        res.send('Cart deleted');
+
+        const order = await Order.create({
+            userId: userId,
+            status: 'pending',
+            totalPrice: 0,
+        });
+
+        let totalPrice = 0;
+
+        for (const selectedProduct of products) {
+            const cartProduct = cart.Products.find(product => product.productId === selectedProduct.productId);
+            if (cartProduct) {
+                totalPrice += cartProduct.price * selectedProduct.quantity;
+                await OrderProduct.create({
+                    orderId: order.orderId,
+                    productId: selectedProduct.productId,
+                    quantity: selectedProduct.quantity,
+                    price: cartProduct.price
+                });
+
+                await CartProduct.destroy({
+                    where: {
+                        cartId: cart.cartId,
+                        productId: selectedProduct.productId
+                    }
+                });
+
+            }
+        }
+        order.totalPrice = totalPrice;
+        await order.save();
+        return res.status(201).json(order);
     } catch (error) {
-        res.status(500).send(error);
+        return res.status(500).send(error);
     }
 }
+
+
 
 module.exports = {
     getCart,
-    createCart,
     updateCart,
-    deleteCart
+    cartToOrder,
 }
