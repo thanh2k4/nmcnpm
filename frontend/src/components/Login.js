@@ -9,9 +9,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const res = await axios.post('http://localhost:5000/auth/login', { username: username.current.value, password: password.current.value }, { withCredentials: true })
-        console.log(JSON.stringify(res.data))
         setUser(res.data);
-        console.log(JSON.stringify(user));
     }
 
     return (
@@ -25,6 +23,10 @@ const Login = () => {
                 <input type="text" id="password" ref={password} />
                 <button type="submit">Login</button>
             </form>
+
+            <div>
+                {JSON.stringify(user)}
+            </div>
         </div>
     );
 }
