@@ -46,17 +46,5 @@ const deleteReview = async (req, res) => {
     }
 }
 
-const getReviewById = async (req, res) => {
-    try {
-        const review = await Review.findByPk(req.params.id);
-        if (!review) {
-            return res.status(404).json({ message: 'Review not found' });
-        }
-        return res.status(200).json(review);
-    }
-    catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-}
 
-module.exports = { createReview, getReviewByProductId, getReviewById, updateReview, deleteReview };
+module.exports = { createReview, getReviewByProductId, updateReview, deleteReview };
