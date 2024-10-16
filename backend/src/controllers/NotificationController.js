@@ -30,9 +30,6 @@ const getNotificationByUserId = async (req, res) => {
                 ]
             }
         });
-        if (!notification) {
-            return res.status(404).json({ message: 'Notification not found' });
-        }
         return res.status(200).json(notification);
     }
     catch (error) {

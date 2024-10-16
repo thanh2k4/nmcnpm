@@ -1,0 +1,7 @@
+authentication{
+    resgiter => access and refresh
+    refresh => access 
+    logout => delete access and refresh
+}
+and 
+authorization
