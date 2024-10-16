@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 
 // Import all models
 const { User, Cart, Order, Product, Review, Notification, OrderProduct, CartProduct } = require('./models/association');
+const { route } = require('./routes');
 
 const port = process.env.PORT || 5000;
 
@@ -22,6 +23,7 @@ app.use(express.json());
 
 // Sync database
 database.sync({ alter: true });
+route(app);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
