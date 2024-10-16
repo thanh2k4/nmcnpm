@@ -1,11 +1,19 @@
 const User = require('../models/User');
-
+const { generateAccessToken, generateRefreshToken } = require('../utils/generateToken');
 
 // Create a new user
 const createUser = async (req, res) => {
     try {
         const user = await User.create(req.body);
-        return res.status(200).json(user);
+        const accessToken = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true, secure: true
+        })
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true, secure: true
+        });
+        return res.status(200).send({ message: 'User created successfully' });
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
