@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Notification = require('../models/Notification');
 
 const createNotification = async (req, res) => {
@@ -18,9 +19,17 @@ const getNotifications = async (req, res) => {
     }
 }
 
-const getNotificationById = async (req, res) => {
+const getNotificationByUserId = async (req, res) => {
     try {
-        const notification = await Notification.findByPk(req.params.id);
+        const id = req.params.id;
+        const notification = await Notification.findAll({
+            where: {
+                [Op.or]: [
+                    { userId: id },
+                    { userId: 0 }
+                ]
+            }
+        });
         if (!notification) {
             return res.status(404).json({ message: 'Notification not found' });
         }
