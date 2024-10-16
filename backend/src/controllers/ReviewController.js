@@ -1,5 +1,7 @@
 const Review = require('../models/Review');
 
+
+// Create a new review
 const createReview = async (req, res) => {
     try {
         const review = await Review.create(req.body);
@@ -9,6 +11,7 @@ const createReview = async (req, res) => {
     }
 }
 
+// Get all reviews by product id
 const getReviewByProductId = async (req, res) => {
     try {
         const reviews = await Review.find({ productId: req.params.id });
@@ -18,6 +21,7 @@ const getReviewByProductId = async (req, res) => {
     }
 }
 
+// Update a review by id
 const updateReview = async (req, res) => {
     try {
         const review = await Review.findByPk(req.params.id);
@@ -32,6 +36,7 @@ const updateReview = async (req, res) => {
     }
 }
 
+// Delete a review by id
 const deleteReview = async (req, res) => {
     try {
         const review = await Review.findByPk(req.params.id);
