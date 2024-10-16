@@ -1,6 +1,8 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 
+
+// Get cart by userId
 const getCart = async (req, res) => {
     const userId = req.params.userId;
     try {
@@ -21,6 +23,8 @@ const getCart = async (req, res) => {
     }
 }
 
+
+// Update cart by userId
 const updateCart = async (req, res) => {
     const userId = req.params.userId;
     try {
@@ -35,6 +39,7 @@ const updateCart = async (req, res) => {
     }
 }
 
+// Create orders from products selected in cart , products selected is parameter
 const cartToOrder = async (req, res) => {
     const userId = req.params.userId;
     const { products } = req.body;
