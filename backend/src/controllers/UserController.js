@@ -32,7 +32,7 @@ const getUsers = async (req, res) => {
 // Get a user by id
 const getUserById = async (req, res) => {
     try {
-        const user = await User.findByPk(req.params.id);
+        const user = await User.findByPk(req.params.userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -58,10 +58,10 @@ const deleteUser = async (req, res) => {
     }
 }
 
-// Update a user by id
+// Update user by themselves
 const updateUser = async (req, res) => {
     try {
-        const user = await User.findByPk(req.params.id);
+        const user = await User.findByPk(req.user.userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -73,4 +73,20 @@ const updateUser = async (req, res) => {
     }
 }
 
-module.exports = { createUser, getUsers, getUserById, deleteUser, updateUser };
+// Get user profile by themselves
+const getUserProfile = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const user = User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json(user);
+
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+
+
+module.exports = { createUser, getUsers, getUserById, deleteUser, updateUser, getUserProfile };
