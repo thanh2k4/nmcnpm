@@ -30,7 +30,6 @@ const verifyAccessToken = async (req, res, next) => {
                     if (!refreshToken) {
                         return res.status(403).json({ message: 'Access token expired and no refresh token found' });
                     }
-
                     try {
                         const user = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
                         const newAccessToken = generateAccessToken(user);
