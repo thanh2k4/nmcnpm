@@ -16,14 +16,7 @@ const createOrder = async (req, res) => {
 // Get all orders
 const getOrders = async (req, res) => {
     try {
-        const orders = await Order.findAll({
-            include: [{
-                model: Product,
-                through: {
-                    attributes: ['quantity', 'price']
-                }
-            }]
-        });
+        const orders = await Order.findAll();
         res.status(200).json(orders);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -104,11 +97,32 @@ const getOrdersByUserId = async (req, res) => {
     }
 }
 
+// Get user order by themselves
+const getOrdersByUser = async (req, res) => {
+    try {
+        const orders = await Order.findAll({
+            where: {
+                userId: req.user.id
+            },
+            include: [{
+                model: Product,
+                through: {
+                    attributes: ['quantity', 'price']
+                }
+            }]
+        });
+        return res.status(200).json(orders);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
 module.exports = {
     createOrder,
     getOrders,
     getOrderById,
     deleteOrder,
     updateOrder,
-    getOrdersByUserId
+    getOrdersByUserId,
+    getOrdersByUser
 };
