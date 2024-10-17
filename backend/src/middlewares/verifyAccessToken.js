@@ -38,12 +38,13 @@ const verifyAccessToken = async (req, res, next) => {
                             httpOnly: true,
                             secure: true,
                         });
-                        req.user = jwt.decode(newAccessToken);
+                        req.user = user;
                         return next();
                     } catch (refreshErr) {
                         return res.status(403).json({ message: 'Invalid refresh token' });
                     }
                 }
+
                 return res.status(403).json({ message: 'Invalid access token' });
             }
 
