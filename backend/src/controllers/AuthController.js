@@ -20,6 +20,9 @@ const login = async (req, res) => {
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true, secure: true
         })
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true, secure: true
+        })
         return res.status(200).json({ accessToken });
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -49,7 +52,6 @@ const allowcateAccessToken = async (req, res) => {
                 httpOnly: true, secure: true
             })
             return res.status(200).send({ message: 'Access token allowcated' });
-
         });
     } catch (error) {
         return res.status(403).json({ message: error.message });
