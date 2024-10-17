@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const Notification = require('../models/Notification');
 
+// Create a new notification
 const createNotification = async (req, res) => {
     try {
         const notification = await Notification.create(req.body);
@@ -10,6 +11,7 @@ const createNotification = async (req, res) => {
     }
 }
 
+// Get all notifications
 const getNotifications = async (req, res) => {
     try {
         const notifications = await Notification.findAll();
@@ -19,22 +21,22 @@ const getNotifications = async (req, res) => {
     }
 }
 
-const getNotificationByUserId = async (req, res) => {
+// Get user notifications by themselves
+const getNotificationByUser = async (req, res) => {
     try {
-        const id = req.params.id;
+        const userId = req.user.userId;
         const notification = await Notification.findAll({
             where: {
                 [Op.or]: [
-                    { userId: id },
+                    { userId: userId },
                     { userId: 0 }
                 ]
             }
         });
         return res.status(200).json(notification);
-    }
-    catch (error) {
+    } catch (error) {
         res.status(400).json({ message: error.message });
     }
 }
 
-module.exports = { createNotification, getNotifications, getNotificationById };
+module.exports = { createNotification, getNotifications, getNotificationByUser };

@@ -12,7 +12,7 @@ const Login = () => {
     }
     const handleClick = async (e) => {
         e.preventDefault();
-        const res = await axios.get('http://localhost:5000/users/1', { withCredentials: true });
+        const res = await axios.get('http://localhost:5000/users/profile', { withCredentials: true });
         setUser(res.data);
     }
 
