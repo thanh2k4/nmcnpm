@@ -36,26 +36,5 @@ const logout = async (req, res) => {
     return res.status(200).json({ message: 'Logout successfully' });
 }
 
-// Allowcate new access token
-const allowcateAccessToken = async (req, res) => {
-    try {
-        const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken) {
-            return res.status(403).json({ message: 'Refresh token not found' });
-        }
-        jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => {
-            if (err) {
-                return res.status(403).json({ message: 'Invalid refresh token' });
-            }
-            const accessToken = generateAccessToken(user);
-            res.cookie('accessToken', accessToken, {
-                httpOnly: true, secure: true
-            })
-            return res.status(200).send({ message: 'Access token allowcated' });
-        });
-    } catch (error) {
-        return res.status(403).json({ message: error.message });
-    }
-}
 
-module.exports = { login, logout, allowcateAccessToken };
+module.exports = { login, logout };
