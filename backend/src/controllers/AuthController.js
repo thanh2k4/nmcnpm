@@ -2,7 +2,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { generateAccessToken, generateRefreshToken } = require('../utils/generateToken');
 
-
 // Login with username password as parameter
 const login = async (req, res) => {
     const { username, password } = req.body;
@@ -29,7 +28,7 @@ const login = async (req, res) => {
     }
 }
 
-//Logout and clear refresh token
+//Logout and clear refresh token and access token
 const logout = async (req, res) => {
     res.clearCookie('refreshToken');
     res.clearCookie('accessToken');
