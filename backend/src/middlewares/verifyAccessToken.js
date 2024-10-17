@@ -30,7 +30,6 @@ const verifyAccessToken = async (req, res, next) => {
                     if (!refreshToken) {
                         return res.status(403).json({ message: 'Access token expired and no refresh token found' });
                     }
-
                     try {
                         const user = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
                         const newAccessToken = generateAccessToken(user);
@@ -38,12 +37,13 @@ const verifyAccessToken = async (req, res, next) => {
                             httpOnly: true,
                             secure: true,
                         });
-                        req.user = jwt.decode(newAccessToken);
+                        req.user = user;
                         return next();
                     } catch (refreshErr) {
                         return res.status(403).json({ message: 'Invalid refresh token' });
                     }
                 }
+
                 return res.status(403).json({ message: 'Invalid access token' });
             }
 
