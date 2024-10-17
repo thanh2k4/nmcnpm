@@ -2,13 +2,17 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios';
 
 const Login = () => {
-    const [user, setUser] = useState({});
     const username = useRef("");
     const password = useRef("");
+    const [user, setUser] = useState({});
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post('http://localhost:5000/auth/login', { username: username.current.value, password: password.current.value }, { withCredentials: true })
+        await axios.post('http://localhost:5000/auth/login', { username: username.current.value, password: password.current.value }, { withCredentials: true })
+    }
+    const handleClick = async (e) => {
+        e.preventDefault();
+        const res = await axios.get('http://localhost:5000/users/1', { withCredentials: true });
         setUser(res.data);
     }
 
@@ -23,10 +27,8 @@ const Login = () => {
                 <input type="text" id="password" ref={password} />
                 <button type="submit">Login</button>
             </form>
-
-            <div>
-                {JSON.stringify(user)}
-            </div>
+            <button type='button' onClick={(e) => handleClick(e)} > Get user </button>
+            <div>{JSON.stringify(user)}</div>
         </div>
     );
 }
