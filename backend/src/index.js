@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const database = require('./config/database');
 const cookieParser = require('cookie-parser');
+const createAdminUser = require('./utils/createAdminUser');
 
 // Import all models
 const { User, Cart, Order, Product, Review, Notification, OrderProduct, CartProduct } = require('./models/association');
@@ -22,7 +23,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Sync database
-database.sync({ alter: true });
+database.sync({ alter: true }).then(() => {
+    console.log('Database synced successfully');
+    createAdminUser();
+});
 route(app);
 
 app.listen(port, () => {

@@ -16,7 +16,7 @@ const User = database.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            len: [6, 20]
+            len: [5, 20]
         }
     },
     email: {
@@ -45,6 +45,7 @@ const User = database.define('User', {
         type: DataTypes.STRING,
         allowNull: false
     },
+
     role: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -52,12 +53,11 @@ const User = database.define('User', {
     },
     birthDate: {
         type: DataTypes.DATE,
-        allowNull: false,
-
+        allowNull: true,
     },
     gender: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     address: {
         type: DataTypes.STRING,
