@@ -47,11 +47,6 @@ const Order = database.define('Order', {
     paymentMethod: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-
-    address: {
-        type: DataTypes.JSON,
-        allowNull: true
     }
 });
 

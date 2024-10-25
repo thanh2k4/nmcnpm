@@ -18,7 +18,7 @@ const Login = () => {
     }
     const handleLogout = async (e) => {
         e.preventDefault();
-        await axios.get('http://localhost:5000/auth/logout', { withCredentials: true });
+        await axios.get('http://localhost:5000/auth/logout', { withCredentials: true, sameSite: 'none' });
     }
     const getAllUser = async (e) => {
         e.preventDefault();

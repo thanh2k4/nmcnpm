@@ -1,6 +1,6 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
-
+const CartUpdateRequest = require('../dto/request/CartUpdateRequest');
 
 // Get cart by userId
 const getCart = async (req, res) => {
@@ -27,10 +27,15 @@ const getCart = async (req, res) => {
 // Update cart by userId
 const updateCart = async (req, res) => {
     const userId = req.params.userId;
+    const { products, ...cartData } = req.body;
     try {
-        const cart = await Cart.update({
-            where: {
-                userId: userId
+        const cart = await Cart.findOne({ where: { userId: userId } });
+        const cartUpdateData = new CartUpdateRequest(cartData);
+        await cart.update(cartUpdateData);
+        await cart.setProducts(products.map(product => product.productId), {
+            through: {
+                quantity: products.map(product => product.quantity),
+                price: products.map(product => product.price)
             }
         });
         return res.send(cart);

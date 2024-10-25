@@ -1,11 +1,18 @@
-const { Model } = require('sequelize');
+const OrderUpdateRequest = require('../dto/request/OrderUpdateRequest');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 
 // Create a new order
 const createOrder = async (req, res) => {
     try {
-        const order = await Order.create(req.body);
+        const { products, ...orderData } = req.body;
+        const order = await Order.create(orderData);
+        await order.addProducts(products.map(product => product.productId), {
+            through: {
+                quantity: products.map(product => product.quantity),
+                price: products.map(product => product.price)
+            }
+        });
         res.status(200).json(order);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -69,7 +76,15 @@ const updateOrder = async (req, res) => {
         if (!order) {
             return res.status(404).json({ message: 'Order not found' });
         }
-        await order.update(req.body);
+        const { products, ...orderData } = req.body;
+        const orderUpdateData = new OrderUpdateRequest(orderData);
+        await order.update(orderUpdateData);
+        await order.setProducts(products.map(product => product.productId), {
+            through: {
+                quantity: products.map(product => product.quantity),
+                price: products.map(product => product.price)
+            }
+        });
         return res.status(200).json(order);
     }
     catch (error) {

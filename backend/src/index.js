@@ -18,7 +18,6 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN,
     credentials: true
 }));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -27,6 +26,8 @@ database.sync({ alter: true }).then(() => {
     console.log('Database synced successfully');
     createAdminUser();
 });
+
+// Route    
 route(app);
 
 app.listen(port, () => {

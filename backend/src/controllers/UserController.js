@@ -1,10 +1,17 @@
-const User = require('../models/User');
+
 const { generateAccessToken, generateRefreshToken } = require('../utils/generateToken');
+const { instanceToPlain } = require('class-transformer');
+const UserCreationRequest = require('../dto/request/UserCreationRequest');
+const UserResponse = require('../dto/response/UserResponse');
+const User = require('../models/User');
+
 
 // Create a new user
 const createUser = async (req, res) => {
     try {
-        const user = await User.create(req.body);
+        const userCreationRequest = new UserCreationRequest(req.body);
+        const userData = instanceToPlain(userCreationRequest);
+        const user = await User.create(userData);
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
         res.cookie('refreshToken', refreshToken, {
@@ -23,7 +30,8 @@ const createUser = async (req, res) => {
 const getUsers = async (req, res) => {
     try {
         const users = await User.findAll();
-        return res.status(200).json(users);
+        const usersResponse = users.map(user => new UserResponse(user.dataValues));
+        return res.status(200).json(usersResponse);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
@@ -36,7 +44,7 @@ const getUserById = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        return res.status(200).json(user);
+        return res.status(200).json(new UserResponse(user.dataValues));
     }
     catch (error) {
         return res.status(400).json({ message: error.message });
@@ -51,7 +59,7 @@ const deleteUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
         await user.destroy();
-        return res.status(204).send();
+        return res.status(204).json({ message: 'User deleted successfully' });
     }
     catch (error) {
         return res.status(400).json({ message: error.message });
@@ -66,7 +74,7 @@ const updateUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
         await user.update(req.body);
-        return res.status(200).json(user);
+        return res.status(200).json({ message: 'User updated successfully' });
     }
     catch (error) {
         return res.status(400).json({ message: error.message });
@@ -81,7 +89,8 @@ const getUserProfile = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        return res.status(200).json(user);
+        const userResponse = new UserResponse(user.dataValues);
+        return res.status(200).json(userResponse);
 
     } catch (error) {
         return res.status(400).json({ message: error.message });

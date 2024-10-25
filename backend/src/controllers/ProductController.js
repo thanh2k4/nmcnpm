@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const ProductUpdateRequest = require('../dto/request/ProductUpdateRequest');
 
 
 // Create a new product
@@ -58,7 +59,8 @@ const updateProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        await product.update(req.body);
+        const productData = new ProductUpdateRequest(req.body);
+        await product.update(productData);
         return res.status(200).json(product);
     }
     catch (error) {

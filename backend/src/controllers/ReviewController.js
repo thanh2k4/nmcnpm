@@ -1,5 +1,5 @@
 const Review = require('../models/Review');
-
+const ReviewUpdateRequest = require('../dto/request/ReviewUpdateRequest');
 
 // Create a new review
 const createReview = async (req, res) => {
@@ -28,7 +28,8 @@ const updateReview = async (req, res) => {
         if (!review) {
             return res.status(404).json({ message: 'Review not found' });
         }
-        await review.update(req.body);
+        const reviewData = new ReviewUpdateRequest(req.body);
+        await review.update(reviewData);
         return res.status(200).json(review);
     }
     catch (error) {

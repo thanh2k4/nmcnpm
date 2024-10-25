@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const database = require('../config/database');
 const bcrypt = require('bcrypt');
 
-
 const phoneValidationRegex = /\d{10}/;
 const passwordValidationRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$])[0-9a-zA-Z!@#$]+$/;
 
