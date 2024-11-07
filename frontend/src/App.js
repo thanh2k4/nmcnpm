@@ -1,13 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
-import Login from './components/Login';
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Login />
-      </header>
+    <div>
+      <HomePage />
     </div>
   );
 }
