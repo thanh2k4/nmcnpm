@@ -35,7 +35,7 @@ const User = database.define('User', {
     },
     phoneNumber: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
             is: phoneValidationRegex
         }

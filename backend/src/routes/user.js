@@ -1,19 +1,26 @@
-const userController = require('../controllers/UserController');
 const express = require('express');
-const router = express.Router();
+const { createUser, getUsers, getUserById, deleteUser, updateUser, getUserProfile } = require('../controllers/userController');
 const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
 const { authorizeRoles } = require('../middlewares/authorizeRoles');
 
-router.get('/profile', verifyAccessToken, authorizeRoles("ADMIN", "USER"), userController.getUserProfile);
+const router = express.Router();
 
-router.post('/', userController.createUser);
+// Tạo mới người dùng
+router.post('/', createUser);
 
-router.get('/', verifyAccessToken, authorizeRoles("ADMIN"), userController.getUsers);
+// Lấy tất cả người dùng (có thể cần quyền admin)
+router.get('/', verifyAccessToken, authorizeRoles("ADMIN"), getUsers);
 
-router.get('/:userId', verifyAccessToken, authorizeRoles("ADMIN"), userController.getUserById);
+// Lấy người dùng theo id
+router.get('/:userId', verifyAccessToken, authorizeRoles("ADMIN"), getUserById);
 
-router.patch('/', verifyAccessToken, authorizeRoles("ADMIN", "USER"), userController.updateUser);
+// Xóa người dùng theo id (chỉ admin hoặc chính người dùng mới có thể)
+router.delete('/:id', verifyAccessToken, authorizeRoles("USER", "ADMIN"), deleteUser);
 
-router.delete('/:userId', verifyAccessToken, authorizeRoles("ADMIN"), userController.deleteUser);
+// Cập nhật người dùng (chỉ người dùng đã đăng nhập)
+router.put('/me', verifyAccessToken, authorizeRoles("USER"), updateUser);
+
+// Lấy hồ sơ người dùng (chỉ người dùng đã đăng nhập)
+router.get('/me', verifyAccessToken, authorizeRoles("USER"), getUserProfile);
 
 module.exports = router;

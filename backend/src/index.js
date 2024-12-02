@@ -5,6 +5,7 @@ const cors = require('cors');
 const database = require('./config/database');
 const cookieParser = require('cookie-parser');
 const createAdminUser = require('./utils/createAdminUser');
+const morgan = require('morgan');
 
 // Import all models
 const { User, Cart, Order, Product, Review, Notification, OrderProduct, CartProduct } = require('./models/association');
@@ -20,6 +21,7 @@ app.use(cors({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan('dev'));
 
 // Sync database
 database.sync({ alter: true }).then(() => {
