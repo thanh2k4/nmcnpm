@@ -6,6 +6,7 @@ import { GiFullPizza } from "react-icons/gi";
 import logountext from '../../assets/images/logountext.PNG';
 import Swipercarousel from './Swiperedit/Swipercarousel';
 
+// quảng bá đầu trang khi chưa đăng nhập
 function SlideSection () {
     return (
         <div className='hero-container'>

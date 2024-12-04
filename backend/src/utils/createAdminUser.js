@@ -8,7 +8,6 @@ const createAdminUser = async () => {
                 username: 'admin',
                 name: 'Admin',
                 email: 'admin@gmail.com',
-                phoneNumber: '0123456789',
                 password: 'Admin00@',
                 role: 'ADMIN',
             });

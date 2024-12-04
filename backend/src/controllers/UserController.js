@@ -55,6 +55,7 @@ const getUserById = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const user = await User.findByPk(req.params.id);
+        console.log(JSON.stringify(req.params.id));
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }

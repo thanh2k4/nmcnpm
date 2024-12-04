@@ -5,6 +5,7 @@ const verifyAccessToken = async (req, res, next) => {
     try {
         const accessToken = req.cookies.accessToken;
         const refreshToken = req.cookies.refreshToken;
+        console.log(JSON.stringify(req.cookies));
 
         if (!accessToken) {
 
