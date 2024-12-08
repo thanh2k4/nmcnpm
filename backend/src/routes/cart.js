@@ -8,7 +8,7 @@ const { authorizeRoles } = require('../middlewares/authorizeRoles');
 router.get('/:userId', verifyAccessToken, getCart);
 
 // Route: Update cart by userId
-router.patch('/:userId', verifyAccessToken, updateCart);
+router.put('/:userId', verifyAccessToken, updateCart);
 
 // Route: Convert cart to order
 router.post('/:userId/order', verifyAccessToken, cartToOrder);

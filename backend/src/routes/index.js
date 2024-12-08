@@ -3,8 +3,7 @@ const authRouter = require('./auth');
 const orderRouter = require('./order');
 const productRouter = require('./product');
 const reviewRouter = require('./review');
-const notificationRouter = require('./notice');
-const cartRouter = require('./cart');
+const noticeRouter = require('./notice');
 
 exports.route = (app) => {
     app.use('/users', userRouter);
@@ -12,6 +11,5 @@ exports.route = (app) => {
     app.use('/orders', orderRouter);
     app.use('/products', productRouter);
     app.use('/reviews', reviewRouter);
-    app.use('/notifications', notificationRouter);
-    app.use('/cart', cartRouter);
-};  
+    app.use('/notices', noticeRouter);
+};

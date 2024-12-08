@@ -11,6 +11,10 @@ router.post('/', createUser);
 // Lấy tất cả người dùng (có thể cần quyền admin)
 router.get('/', verifyAccessToken, authorizeRoles("ADMIN"), getUsers);
 
+
+// Lấy hồ sơ người dùng (chỉ người dùng đã đăng nhập)
+router.get('/me', verifyAccessToken, authorizeRoles("USER", "ADMIN"), getUserProfile);
+
 // Lấy người dùng theo id
 router.get('/:userId', verifyAccessToken, authorizeRoles("ADMIN"), getUserById);
 
@@ -20,7 +24,6 @@ router.delete('/:id', verifyAccessToken, authorizeRoles("USER", "ADMIN"), delete
 // Cập nhật người dùng (chỉ người dùng đã đăng nhập)
 router.put('/me', verifyAccessToken, authorizeRoles("USER"), updateUser);
 
-// Lấy hồ sơ người dùng (chỉ người dùng đã đăng nhập)
-router.get('/me', verifyAccessToken, authorizeRoles("USER"), getUserProfile);
+
 
 module.exports = router;
