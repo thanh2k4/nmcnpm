@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getCart, updateCart, cartToOrder } = require('../controllers/cartController');
+const { getCart, updateCart, cartToOrder } = require('../controllers/CartController');
 const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
 
 router.get('/:userId', verifyAccessToken, (req, res, next) => {
