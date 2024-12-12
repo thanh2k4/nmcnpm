@@ -2,15 +2,26 @@ const express = require('express');
 const router = express.Router();
 const { getCart, updateCart, cartToOrder } = require('../controllers/cartController');
 const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
-const { authorizeRoles } = require('../middlewares/authorizeRoles');
 
-// Route: Get cart by userId
-router.get('/:userId', verifyAccessToken, getCart);
+router.get('/:userId', verifyAccessToken, (req, res, next) => {
+    if (req.user.id !== req.params.userId) {
+        return res.status(403).json({ message: 'Bạn không có quyền!' });
+    }
+    next();
+}, getCart);
 
-// Route: Update cart by userId
-router.put('/:userId', verifyAccessToken, updateCart);
+router.patch('/:userId', verifyAccessToken, (req, res, next) => {
+    if (req.user.id !== req.params.userId) {
+        return res.status(403).json({ message: 'Bạn không có quyền!' });
+    }
+    next();
+}, updateCart);
 
-// Route: Convert cart to order
-router.post('/:userId/order', verifyAccessToken, cartToOrder);
+router.post('/:userId/order', verifyAccessToken, (req, res, next) => {
+    if (req.user.id !== req.params.userId) {
+        return res.status(403).json({ message: 'Bạn không có quyền!' });
+    }
+    next();
+}, cartToOrder);
 
 module.exports = router;
