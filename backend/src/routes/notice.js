@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createNotification, getNotifications, getNotificationByUser } = require('../controllers/notificationController');
+const { createNotification, getNotifications, getNotificationByUser } = require('../controllers/NotificationController');
 const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
 const { authorizeRoles } = require('../middlewares/authorizeRoles');
 
