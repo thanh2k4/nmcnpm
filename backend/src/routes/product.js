@@ -7,15 +7,16 @@ const {
     deleteProduct,
     updateProduct
 } = require('../controllers/ProductController');
+const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
+const { authorizeRoles } = require('../middlewares/authorizeRoles');
 
-router.post('/', createProduct);
+// Admin
+router.post('/', verifyAccessToken, authorizeRoles(['ADMIN']), createProduct);
+router.put('/:id', verifyAccessToken, authorizeRoles(['ADMIN']), updateProduct);
+router.delete('/:id', verifyAccessToken, authorizeRoles(['ADMIN']), deleteProduct);
 
-router.get('/', getProducts);
-
+// Ko can quyen admin
+router.get('/', getProducts); 
 router.get('/:id', getProductById);
-
-router.put('/:id', updateProduct);
-
-router.delete('/:id', deleteProduct);
 
 module.exports = router;

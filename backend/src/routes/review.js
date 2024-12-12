@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const reviewController = require('../controllers/reviewController');
+const reviewController = require('../controllers/ReviewController');
+const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
+const { authorizeRoles } = require('../middlewares/authorizeRoles');
 
-// Create a new review
-router.post('/', reviewController.createReview);
+// Nguoi dung da dang nhap
+router.post('/', verifyAccessToken, reviewController.createReview);
 
-// Get all reviews by product id
+// xem review (khong yeu cau dang nhap)
 router.get('/product/:id', reviewController.getReviewByProductId);
 
-// Update a review by id
-router.put('/:id', reviewController.updateReview);
+// Cap nhat danh gia
+router.put('/:id', verifyAccessToken, reviewController.updateReview);
 
-// Delete a review by id
-router.delete('/:id', reviewController.deleteReview);
+// Xoa danh gia(nguoi dung da dang nhap hoac admin)
+router.delete('/:id', verifyAccessToken, authorizeRoles(['ADMIN', 'USER']), reviewController.deleteReview);
 
 module.exports = router;
