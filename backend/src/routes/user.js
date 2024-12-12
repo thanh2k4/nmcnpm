@@ -6,7 +6,7 @@ const {
     deleteUser,
     updateUser,
     getUserProfile
-} = require('../controllers/userController');
+} = require('../controllers/UserController');
 const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
 const { authorizeRoles } = require('../middlewares/authorizeRoles');
 
