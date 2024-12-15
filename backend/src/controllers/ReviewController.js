@@ -9,6 +9,7 @@ const createReview = async (req, res) => {
         }
         const review = await Review.create(req.body);
         review.userId = req.user.userId;
+        review.save();
         res.status(200).json(review);
     } catch (error) {
         res.status(400).json({ message: error.message });
