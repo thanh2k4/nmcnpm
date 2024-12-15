@@ -1,5 +1,6 @@
 const Review = require('../models/Review');
 const ReviewUpdateRequest = require('../dto/request/ReviewUpdateRequest');
+const User = require('../models/User');
 
 // Create a new review
 const createReview = async (req, res) => {
@@ -26,7 +27,7 @@ const getReviewByProductId = async (req, res) => {
                 productId: req.params.id
             },
             include: {
-                association: 'user',
+                model: User,
                 attributes: ['username']
             }
         }
