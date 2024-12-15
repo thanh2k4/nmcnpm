@@ -14,7 +14,7 @@ const createReview = async (req, res) => {
 // Get all reviews by product id
 const getReviewByProductId = async (req, res) => {
     try {
-        const reviews = await Review.find({ productId: req.params.id });
+        const reviews = await Review.findAll({ productId: req.params.id });
         res.status(200).json(reviews);
     } catch (error) {
         res.status(400).json({ message: error.message });
