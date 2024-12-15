@@ -4,7 +4,11 @@ const ReviewUpdateRequest = require('../dto/request/ReviewUpdateRequest');
 // Create a new review
 const createReview = async (req, res) => {
     try {
+        if (req.user.userId) {
+            return res.status(403).json({ message: 'You are not allowed to create a review' });
+        }
         const review = await Review.create(req.body);
+        review.userId = req.user.userId;
         res.status(200).json(review);
     } catch (error) {
         res.status(400).json({ message: error.message });
