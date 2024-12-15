@@ -74,7 +74,9 @@ const updateUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+        console.log(JSON.stringify(user));
         await user.update(req.body);
+
         return res.status(200).json({ message: 'User updated successfully' });
     }
     catch (error) {

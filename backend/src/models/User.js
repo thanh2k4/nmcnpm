@@ -27,11 +27,7 @@ const User = database.define('User', {
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            len: [8, 20],
-            is: passwordValidationRegex
-        }
+        allowNull: false
     },
     phoneNumber: {
         type: DataTypes.STRING,
@@ -66,12 +62,24 @@ const User = database.define('User', {
 }, {
     hooks: {
         beforeCreate: async (user) => {
+            if (user.password.length > 20 || user.password.length < 8) {
+                throw new Error('Password must be between 8 and 20 characters');
+            }
+            if (!passwordValidationRegex.test(user.password)) {
+                throw new Error('Password must contain at least one lowercase letter, one uppercase letter, one number and one special character');
+            }
             const hashedPassword = await bcrypt.hash(user.password, 10);
             user.password = hashedPassword;
 
         },
         beforeUpdate: async (user) => {
             if (user.changed('password')) {
+                if (user.password.length > 20 || user.password.length < 8) {
+                    throw new Error('Password must be between 8 and 20 characters');
+                }
+                if (!passwordValidationRegex.test(user.password)) {
+                    throw new Error('Password must contain at least one lowercase letter, one uppercase letter, one number and one special character');
+                }
                 const hashedPassword = await bcrypt.hash(user.password, 10);
                 user.password = hashedPassword;
             }
