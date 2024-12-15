@@ -4,12 +4,14 @@ const ReviewUpdateRequest = require('../dto/request/ReviewUpdateRequest');
 // Create a new review
 const createReview = async (req, res) => {
     try {
-        if (req.user.userId) {
+        if (!req.user.userId) {
             return res.status(403).json({ message: 'You are not allowed to create a review' });
         }
-        const review = await Review.create(req.body);
-        review.userId = req.user.userId;
-        review.save();
+        const review = await Review.create({
+            ...req.body,
+            userId: req.user.userId
+        });
+
         res.status(200).json(review);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -19,7 +21,16 @@ const createReview = async (req, res) => {
 // Get all reviews by product id
 const getReviewByProductId = async (req, res) => {
     try {
-        const reviews = await Review.findAll({ productId: req.params.id });
+        const reviews = await Review.findAll({
+            where: {
+                productId: req.params.id
+            },
+            include: {
+                association: 'user',
+                attributes: ['username']
+            }
+        }
+        );
         res.status(200).json(reviews);
     } catch (error) {
         res.status(400).json({ message: error.message });
