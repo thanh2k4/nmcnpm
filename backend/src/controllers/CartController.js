@@ -27,7 +27,7 @@ const getCart = async (req, res) => {
 // Update cart by userId
 const updateCart = async (req, res) => {
     const userId = req.user.userId;
-    const { products, ...cartData } = req.body;
+    const { products, cartData } = req.body;
     try {
         const cart = await Cart.findOne({ where: { userId: userId } });
         const cartUpdateData = new CartUpdateRequest(cartData);
