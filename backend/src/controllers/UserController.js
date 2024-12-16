@@ -4,6 +4,7 @@ const { instanceToPlain } = require('class-transformer');
 const UserCreationRequest = require('../dto/request/UserCreationRequest');
 const UserResponse = require('../dto/response/UserResponse');
 const User = require('../models/User');
+const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
 
 
 // Create a new user
@@ -11,18 +12,24 @@ const createUser = async (req, res) => {
     try {
         const userCreationRequest = new UserCreationRequest(req.body);
         const userData = instanceToPlain(userCreationRequest);
-        if (req.user.role === 'ADMIN' && req.body.role) {
-            userData.role = req.body.role;
+        try {
+            verifyAccessToken(req, res, next);
+        } catch (err) {
         }
-        const user = await User.create(userData);
-        const accessToken = generateAccessToken(user);
-        const refreshToken = generateRefreshToken(user);
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true, secure: true
-        })
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true, secure: true
-        });
+        if (req.user.role === 'ADMIN' && userData.role) {
+            userData.role = req.body.role;
+            await User.create(userData);
+        } else {
+            const user = await User.create(userData);
+            const accessToken = generateAccessToken(user);
+            const refreshToken = generateRefreshToken(user);
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true, secure: true
+            })
+            res.cookie('accessToken', accessToken, {
+                httpOnly: true, secure: true
+            });
+        }
         return res.status(200).send({ message: 'User created successfully' });
     } catch (error) {
         return res.status(400).json({ message: error.message });
