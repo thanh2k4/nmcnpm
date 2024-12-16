@@ -45,7 +45,9 @@ const updateReview = async (req, res) => {
         if (!review) {
             return res.status(404).json({ message: 'Review not found' });
         }
+        console.log(JSON.stringify(req.body));
         const reviewData = new ReviewUpdateRequest(req.body);
+        console.log(JSON.stringify(reviewData));
         await review.update(reviewData);
         return res.status(200).json(review);
     }

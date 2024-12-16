@@ -1,5 +1,5 @@
 class CartUpdateRequest {
-    constructor(totalPrice) {
+    constructor({ totalPrice }) {
         this.totalPrice = totalPrice;
     }
 }

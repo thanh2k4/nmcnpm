@@ -1,5 +1,5 @@
 class OrderUpdateRequest {
-    constructor(status, address, shippingMethod, paymentMethod) {
+    constructor({ status, address, shippingMethod, paymentMethod }) {
         this.status = status;
         this.address = address;
         this.shippingMethod = shippingMethod;

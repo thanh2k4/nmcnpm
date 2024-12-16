@@ -1,6 +1,6 @@
 class ReviewUpdateRequest {
-    constructor(rating, review) {
-        this.rating = rating;
+    constructor({ rating, review }) {
+        this.rating = Number(rating);
         this.review = review;
     }
 }
