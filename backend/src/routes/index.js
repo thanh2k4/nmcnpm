@@ -4,8 +4,10 @@ const orderRouter = require('./order');
 const productRouter = require('./product');
 const reviewRouter = require('./review');
 const noticeRouter = require('./notice');
+const cartRouter = require('./cart');
 
 exports.route = (app) => {
+    app.use('/carts', cartRouter);
     app.use('/users', userRouter);
     app.use('/auth', authRouter);
     app.use('/orders', orderRouter);
