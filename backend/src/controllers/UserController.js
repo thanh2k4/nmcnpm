@@ -11,6 +11,9 @@ const createUser = async (req, res) => {
     try {
         const userCreationRequest = new UserCreationRequest(req.body);
         const userData = instanceToPlain(userCreationRequest);
+        if (req.user.role === 'ADMIN' && req.body.role) {
+            userData.role = req.body.role;
+        }
         const user = await User.create(userData);
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);

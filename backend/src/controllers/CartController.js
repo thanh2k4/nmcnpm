@@ -30,14 +30,17 @@ const updateCart = async (req, res) => {
     const { products, cartData } = req.body;
     try {
         const cart = await Cart.findOne({ where: { userId: userId } });
+        console.log(`-----------------${JSON.stringify(products)}`);
         const cartUpdateData = new CartUpdateRequest(cartData);
         await cart.update(cartUpdateData);
-        await cart.setProducts(products.map(product => product.productId), {
-            through: {
-                quantity: products.map(product => product.quantity),
-                price: products.map(product => product.price)
-            }
-        });
+        for (const product of products) {
+            await cart.addProduct(product.productId, {
+                through: {
+                    quantity: product.quantity,
+                    price: product.price
+                }
+            });
+        }
         return res.send(cart);
     } catch (error) {
         return res.status(500).send(error);
