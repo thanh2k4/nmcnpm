@@ -24,7 +24,7 @@ const OrderProduct = database.define('OrderProduct', {
         allowNull: false
     },
     price: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false,
     }
 });

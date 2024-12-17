@@ -30,7 +30,7 @@ const Order = database.define('Order', {
     },
 
     totalPrice: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false
     },
 
