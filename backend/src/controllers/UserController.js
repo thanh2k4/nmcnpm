@@ -14,12 +14,10 @@ const createUser = async (req, res) => {
         const userData = instanceToPlain(userCreationRequest);
         try {
             verifyAccessToken(req, res, next);
-        } catch (err) {
-        }
-        if (req.user.role === 'ADMIN' && userData.role) {
+            req.user.role === 'ADMIN' && userData.role
             userData.role = req.body.role;
             await User.create(userData);
-        } else {
+        } catch (err) {
             const user = await User.create(userData);
             const accessToken = generateAccessToken(user);
             const refreshToken = generateRefreshToken(user);
