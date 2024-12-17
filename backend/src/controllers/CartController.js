@@ -82,12 +82,7 @@ const cartToOrder = async (req, res) => {
                     price: cartProduct.price
                 });
 
-                await CartProduct.destroy({
-                    where: {
-                        cartId: cart.cartId,
-                        productId: selectedProduct.productId
-                    }
-                });
+                await cart.removeProduct(selectedProduct.productId);
 
             }
         }
