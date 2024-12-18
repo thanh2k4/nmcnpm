@@ -5,16 +5,21 @@ const Product = require('../models/Product');
 // Create a new order
 const createOrder = async (req, res) => {
     try {
-        const { products, ...orderData } = req.body;
+        const { products, orderData } = req.body;
+        const userId = req.user.userId;
+        orderData.userId = userId;
         const order = await Order.create(orderData);
-        await order.addProducts(products.map(product => product.productId), {
-            through: {
-                quantity: products.map(product => product.quantity),
-                price: products.map(product => product.price)
-            }
-        });
+        for (const product of products) {
+            await order.addProduct(product.productId, {
+                through: {
+                    quantity: product.quantity,
+                    price: product.price
+                }
+            });
+        }
         res.status(200).json(order);
     } catch (error) {
+        console.log(error)
         res.status(400).json({ message: error.message });
     }
 }
