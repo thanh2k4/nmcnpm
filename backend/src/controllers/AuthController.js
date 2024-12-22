@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { generateAccessToken, generateRefreshToken } = require('../utils/generateToken');
+const { saveRefreshToken, deleteRefreshToken } = require('../utils/redisService');
 
 // Login with username password as parameter
 const login = async (req, res) => {
@@ -16,6 +17,8 @@ const login = async (req, res) => {
         }
         const accessToken = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
+        await saveRefreshToken(user.userId, refreshToken);
+
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true, secure: true
         })
@@ -30,8 +33,10 @@ const login = async (req, res) => {
 
 //Logout and clear refresh token and access token
 const logout = async (req, res) => {
+    const userId = req.user.userId;
     res.clearCookie('refreshToken');
     res.clearCookie('accessToken');
+    await deleteRefreshToken(userId);
     return res.status(200).json({ message: 'Logout successfully' });
 }
 

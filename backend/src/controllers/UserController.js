@@ -5,6 +5,7 @@ const UserCreationRequest = require('../dto/request/UserCreationRequest');
 const UserResponse = require('../dto/response/UserResponse');
 const User = require('../models/User');
 const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
+const { saveRefreshToken } = require('../utils/redisService');
 
 
 // Create a new user
@@ -21,6 +22,7 @@ const createUser = async (req, res) => {
             const user = await User.create(userData);
             const accessToken = generateAccessToken(user);
             const refreshToken = generateRefreshToken(user);
+            await saveRefreshToken(user.userId, refreshToken);
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true, secure: true
             })
