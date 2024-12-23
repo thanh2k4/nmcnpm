@@ -122,7 +122,7 @@ const getOrdersByUser = async (req, res) => {
     try {
         const orders = await Order.findAll({
             where: {
-                userId: req.user.id
+                userId: req.user.userId
             },
             include: [{
                 model: Product,
