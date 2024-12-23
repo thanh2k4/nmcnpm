@@ -4,8 +4,8 @@ const { instanceToPlain } = require('class-transformer');
 const UserCreationRequest = require('../dto/request/UserCreationRequest');
 const UserResponse = require('../dto/response/UserResponse');
 const User = require('../models/User');
-const { verifyAccessToken } = require('../middlewares/verifyAccessToken');
 const { saveRefreshToken } = require('../utils/redisService');
+const jwt = require('jsonwebtoken');
 
 
 // Create a new user
@@ -13,12 +13,9 @@ const createUser = async (req, res) => {
     try {
         const userCreationRequest = new UserCreationRequest(req.body);
         const userData = instanceToPlain(userCreationRequest);
-        try {
-            verifyAccessToken(req, res, next);
-            req.user.role === 'ADMIN' && userData.role
-            userData.role = req.body.role;
-            await User.create(userData);
-        } catch (err) {
+        const token = req.cookies.accessToken;
+
+        if (!token) {
             const user = await User.create(userData);
             const accessToken = generateAccessToken(user);
             const refreshToken = generateRefreshToken(user);
@@ -29,6 +26,12 @@ const createUser = async (req, res) => {
             res.cookie('accessToken', accessToken, {
                 httpOnly: true, secure: true
             });
+        } else {
+            const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+            if (decoded.role === 'ADMIN' && req.body.role) {
+                userData.role = req.body.role;
+            }
+            await User.create(userData);
         }
         return res.status(200).send({ message: 'User created successfully' });
     } catch (error) {
