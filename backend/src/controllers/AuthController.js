@@ -25,7 +25,7 @@ const login = async (req, res) => {
         res.cookie('accessToken', accessToken, {
             httpOnly: true, secure: true
         })
-        return res.status(200).json({ message: 'Login successfully' });
+        return res.status(200).json({ message: `Login successfully with role : ${user.role}` });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

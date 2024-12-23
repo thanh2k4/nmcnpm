@@ -1,7 +1,7 @@
 
 
 class UserResponse {
-    constructor({ userId, username, email, phoneNumber, name, birthDate, gender, address }) {
+    constructor({ userId, username, email, phoneNumber, name, birthDate, gender, address, role }) {
         this.userId = userId;
         this.username = username;
         this.email = email;
@@ -10,6 +10,7 @@ class UserResponse {
         this.birthDate = birthDate;
         this.address = address;
         this.gender = gender;
+        this.role = role;
     }
 }
 
