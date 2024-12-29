@@ -1,0 +1,55 @@
+.rating-summary {
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .rating-summary h4 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .rating-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .rating-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 40px;
+  }
+  
+  .star-icon {
+    color: #ffd700;
+  }
+  
+  .bar-container {
+    flex: 1;
+    height: 12px;
+    background: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  .bar-fill {
+    height: 100%;
+    background: #762E2E;
+    border-radius: 6px;
+    transition: width 0.3s ease;
+  }
+  
+  .count {
+    min-width: 30px;
+    text-align: right;
+    color: #666;
+  }

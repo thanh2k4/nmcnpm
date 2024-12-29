@@ -1,0 +1,85 @@
+.hero-container {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.background-image {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.background-image.loaded {
+  opacity: 1;
+}
+
+.hero-welcome {
+  z-index: 2;
+  text-align: center;
+}
+
+.hero-welcome-title {
+  font-size: 3rem;
+  margin: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pizza-icon {
+  color: #ff6b6b;
+  animation: spin 4s linear infinite;
+}
+
+.hero-background {
+  margin-top: 2rem;
+}
+
+.hero-hello {
+  margin-top: 2rem;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-btns > div {
+  display: flex;
+  gap: 2rem;
+}
+
+@keyframes spin {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .hero-welcome-title {
+      font-size: 2rem;
+  }
+  
+  .hero-btns {
+      flex-direction: column;
+  }
+}
+
+.error-container {
+  color: #ff0000;
+  text-align: center;
+  padding: 2rem;
+}

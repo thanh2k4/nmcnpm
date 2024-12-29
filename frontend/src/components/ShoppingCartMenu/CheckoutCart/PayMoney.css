@@ -1,0 +1,227 @@
+.paymoney-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.paymoney-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.paymoney-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.paymoney-section {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.paymoney-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.address-form textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.address-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.address-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.delivery-options,
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.voucher-input {
+  display: flex;
+  gap: 10px;
+}
+
+.voucher-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.paymoney-summary {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 20px;
+}
+
+.summary-details {
+  margin: 20px 0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-row.discount {
+  color: #e41e31;
+}
+
+.summary-row.total {
+  font-size: 1.2em;
+  font-weight: bold;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.paymoney-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.back-button {
+  background: #f0f0f0;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.place-order-button {
+  flex: 1;
+  background: #4CAF50;
+  color: white;
+}
+
+.place-order-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .paymoney-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .paymoney-summary {
+    position: static;
+  }
+}
+
+.delivery-options,
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.delivery-option,
+.payment-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delivery-option:hover,
+.payment-option:hover {
+  border-color: #4CAF50;
+  background-color: #f8f8f8;
+}
+
+.delivery-option input[type="radio"],
+.payment-option input[type="radio"] {
+  margin-top: 4px;
+}
+
+.option-content {
+  flex: 1;
+  font-size: 1rem;
+}
+
+.option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.option-title {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.option-price {
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.option-description {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.option-icon {
+  font-size: 1.5em;
+  color: #4CAF50;
+}
+
+.delivery-option input[type="radio"]:checked + .option-content,
+.payment-option input[type="radio"]:checked + .option-content {
+  color: #4CAF50;
+}
+
+.delivery-option input[type="radio"]:checked,
+.payment-option input[type="radio"]:checked {
+  accent-color: #4CAF50;
+}
+
+.paymoney-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.2em;
+}
